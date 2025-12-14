@@ -126,7 +126,7 @@ chmod 600 "$INSTALL_DIR/.env"
 # 10. Systemd Services
 log "Installing systemd services..."
 # We will generate these files in the next step
-cp install/*.service /etc/systemd/system/ || true
+cp "$INSTALL_DIR/install/"*.service /etc/systemd/system/ || true
 systemctl daemon-reload
 
 # 11. Firewall
