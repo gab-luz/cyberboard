@@ -107,6 +107,10 @@ log "Setting up installation directory..."
 mkdir -p "$INSTALL_DIR"
 cp -r . "$INSTALL_DIR/" || error_exit "Failed to copy files"
 
+# Generate consistent passwords
+DB_PASSWORD=$(openssl rand -base64 16)
+SECRET_KEY=$(openssl rand -base64 32)
+
 # Create Docker Compose file
 log "Creating Docker Compose configuration..."
 cat > "$INSTALL_DIR/docker-compose.yml" <<EOF
@@ -128,9 +132,9 @@ services:
     build: ./dashboard
     environment:
       - DEBUG=False
-      - SECRET_KEY=$(openssl rand -base64 32)
+      - SECRET_KEY=$SECRET_KEY
       - ALLOWED_HOSTS=localhost,127.0.0.1,$DOMAIN
-      - DATABASE_URL=postgres://gridops:$(openssl rand -base64 16)@postgres:5432/gridops
+      - DATABASE_URL=postgres://gridops:$DB_PASSWORD@postgres:5432/gridops
       - REDIS_URL=redis://redis:6379/0
       - GRIDOPS_DOMAIN=$DOMAIN
       - GRIDOPS_EMAIL=$EMAIL
@@ -145,7 +149,7 @@ services:
     environment:
       - POSTGRES_DB=gridops
       - POSTGRES_USER=gridops
-      - POSTGRES_PASSWORD=$(openssl rand -base64 16)
+      - POSTGRES_PASSWORD=$DB_PASSWORD
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
