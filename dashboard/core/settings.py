@@ -97,8 +97,21 @@ DATABASES = {
 
 # In production use Postgres
 if os.environ.get('DATABASE_URL'):
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url.startswith('postgres://'):
+        # Parse postgres://user:pass@host:port/db
+        import re
+        match = re.match(r'postgres://([^:]+):([^@]+)@([^:]+):([^/]+)/(.+)', db_url)
+        if match:
+            user, password, host, port, name = match.groups()
+            DATABASES['default'] = {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': name,
+                'USER': user,
+                'PASSWORD': password,
+                'HOST': host,
+                'PORT': port,
+            }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
