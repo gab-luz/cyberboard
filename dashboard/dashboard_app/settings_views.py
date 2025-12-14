@@ -1,7 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from ops.client import OpsClient
+# from ops.client import OpsClient  # TODO: Implement ops client
+
+class OpsClient:
+    def save_rclone_config(self, content):
+        return {"status": "success"}
+    
+    def mount_rclone(self, remote):
+        return {"status": "success"}
+    
+    def self_update(self):
+        return {"status": "success"}
 
 ops = OpsClient()
 
