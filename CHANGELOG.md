@@ -36,6 +36,7 @@ All notable changes to GridOps will be documented in this file.
 - SSL certificate acquisition for production domains
 - SSL redirect loop by adding proper proxy headers
 - Missing ops module by creating stub OpsClient class in all view files
+- Database migration and static files collection in Docker startup
 
 ### Removed
 - Direct system package installation (PostgreSQL, Redis, Python venv)
