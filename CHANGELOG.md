@@ -33,6 +33,8 @@ All notable changes to GridOps will be documented in this file.
 - Django container boot failure due to missing dj-database-url dependency
 - Caddy configuration formatting issues and SSL certificate handling
 - Development mode support for localhost without SSL
+- SSL certificate acquisition for production domains
+- SSL redirect loop by adding proper proxy headers
 
 ### Removed
 - Direct system package installation (PostgreSQL, Redis, Python venv)
