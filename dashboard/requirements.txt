@@ -15,5 +15,6 @@ django-crispy-forms
 crispy-tailwind
 bcrypt
 psutil
+dj-database-url
 # For geoip
 geoip2
