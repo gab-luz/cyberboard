@@ -81,30 +81,14 @@ if ! id -u gridops > /dev/null 2>&1; then
     usermod -aG docker gridops
 fi
 
-# 6. Setup Directory Structure & Git Repo
-# We need the install dir to be a git repo for self-updates to work.
+# 6. Setup Directory Structure
+log "Setting up directory structure..."
 if [ -d ".git" ]; then
     log "Deploying from local git repository..."
-    # We are running from inside the repo. We should clone/copy it to target.
-    # To preserve origin, we can just copy, but we need to ensure permissions.
-
-    # Check if target exists
-    if [ ! -d "$INSTALL_DIR/.git" ]; then
-        cp -r . "$INSTALL_DIR/"
-    else
-        # Update existing
-        cp -r . "$INSTALL_DIR/"
-    fi
+    cp -r . "$INSTALL_DIR/"
 else
-    log "Not running from a git repo. Attempting to clone from remote..."
-    # Fallback to public repo if we are just running the script standalone
-    # Replace URL with actual repo URL
-    GIT_REPO_URL="https://github.com/example/gridops.git"
-    if [ ! -d "$INSTALL_DIR/.git" ]; then
-        git clone "$GIT_REPO_URL" "$INSTALL_DIR"
-    else
-        cd "$INSTALL_DIR" && git pull
-    fi
+    log "Copying files to install directory..."
+    cp -r . "$INSTALL_DIR/"
 fi
 
 mkdir -p "$INSTALL_DIR"/{apps,backups,static,media}
