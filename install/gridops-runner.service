@@ -1,0 +1,18 @@
+[Unit]
+Description=GridOps Privileged Runner
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=root
+WorkingDirectory=/srv/gridops/ops
+ExecStart=/srv/gridops/venv/bin/python3 runner.py
+Restart=always
+# Security hardening for the runner (even though it's privileged, limit what we can)
+# We need it to access docker socket and manipulate files in /srv/gridops
+ProtectSystem=full
+ProtectHome=yes
+ReadWritePaths=/srv/gridops /var/run/docker.sock /etc/caddy /var/log/gridops
+
+[Install]
+WantedBy=multi-user.target

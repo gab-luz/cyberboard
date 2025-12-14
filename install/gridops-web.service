@@ -1,0 +1,14 @@
+[Unit]
+Description=GridOps Web Dashboard
+After=network.target postgresql.service redis-server.service
+
+[Service]
+User=gridops
+Group=gridops
+WorkingDirectory=/srv/gridops/dashboard
+EnvironmentFile=/srv/gridops/.env
+ExecStart=/srv/gridops/venv/bin/gunicorn core.wsgi:application --bind 127.0.0.1:8000 --workers 3
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

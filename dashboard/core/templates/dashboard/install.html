@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-6">
+        <a href="{% url 'catalog' %}" class="text-slate-400 hover:text-white flex items-center mb-2">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            Back to Catalog
+        </a>
+        <div class="flex items-center space-x-4">
+             <div class="w-16 h-16 rounded-xl bg-slate-800 flex items-center justify-center text-4xl border border-white/10 shadow-lg">
+                {{ item.icon|default:"📦" }}
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold text-white">Install {{ item.name }}</h1>
+                <p class="text-slate-400">{{ item.description }}</p>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" class="glass-card p-8 rounded-2xl space-y-6">
+        {% csrf_token %}
+
+        <div>
+            <h3 class="text-lg font-semibold text-white mb-4 border-b border-white/10 pb-2">Network Exposure</h3>
+            <div class="grid grid-cols-3 gap-4">
+                <label class="cursor-pointer">
+                    <input type="radio" name="exposure" value="public" class="peer sr-only">
+                    <div class="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-green-500/10 peer-checked:border-green-500/50 peer-checked:text-green-400 transition text-center">
+                        <div class="font-bold">Public</div>
+                        <div class="text-xs text-slate-400 mt-1">Exposed to Internet</div>
+                    </div>
+                </label>
+                 <label class="cursor-pointer">
+                    <input type="radio" name="exposure" value="vpn" class="peer sr-only">
+                    <div class="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-green-500/10 peer-checked:border-green-500/50 peer-checked:text-green-400 transition text-center">
+                        <div class="font-bold">VPN Only</div>
+                        <div class="text-xs text-slate-400 mt-1">WireGuard Network</div>
+                    </div>
+                </label>
+                 <label class="cursor-pointer">
+                    <input type="radio" name="exposure" value="internal" class="peer sr-only" checked>
+                    <div class="p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 peer-checked:bg-green-500/10 peer-checked:border-green-500/50 peer-checked:text-green-400 transition text-center">
+                        <div class="font-bold">Internal</div>
+                        <div class="text-xs text-slate-400 mt-1">No External Access</div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-slate-300 mb-1">Subdomain</label>
+            <div class="flex">
+                <input type="text" name="domain_prefix" value="{{ item.slug }}" class="flex-1 bg-slate-800 border border-slate-600 rounded-l-lg px-4 py-2 text-white focus:outline-none focus:border-green-500">
+                <span class="bg-slate-700 border border-l-0 border-slate-600 rounded-r-lg px-4 py-2 text-slate-400">.{{ request.get_host }}</span>
+            </div>
+        </div>
+
+        {% if item.form_schema %}
+        <div>
+            <h3 class="text-lg font-semibold text-white mb-4 border-b border-white/10 pb-2">Configuration</h3>
+            <!-- Dynamic Form Generation -->
+            {% for field in item.form_schema %}
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-slate-300 mb-1">{{ field.label }}</label>
+                <input type="text" name="env_{{ field.name }}" value="{{ field.default }}" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-green-500">
+                <p class="text-xs text-slate-500 mt-1">{{ field.help_text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="pt-4 border-t border-white/10 flex justify-end">
+            <button type="submit" class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-500/20 transition transform hover:-translate-y-0.5">
+                Deploy Application
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
