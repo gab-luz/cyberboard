@@ -13,6 +13,8 @@ docker system prune -f
 
 echo "Copying updated files..."
 cp -r /mnt/ia/DEV/cyberboard/* "$INSTALL_DIR/"
+echo "Files copied, current directory contents:"
+ls -la "$INSTALL_DIR/dashboard/dashboard_app/" | head -5
 
 echo "Building and starting containers..."
 docker-compose build --no-cache
