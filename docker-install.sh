@@ -25,18 +25,63 @@ fi
 DOMAIN=""
 EMAIL=""
 INSTALL_DIR="/srv/gridops"
+MODE=""
 
 # Parse args
 while [ "$1" != "" ]; do
     case $1 in
         --domain ) shift; DOMAIN=$1 ;;
         --email ) shift; EMAIL=$1 ;;
+        --mode ) shift; MODE=$1 ;;
     esac
     shift
 done
 
+# Interactive mode selection if not provided
+if [ -z "$MODE" ]; then
+    if command -v dialog &> /dev/null; then
+        MODE=$(dialog --clear --backtitle "GridOps Installer" \
+            --title "Installation Mode" \
+            --menu "Choose installation mode:" 15 50 4 \
+            "dev" "Development (localhost, no SSL)" \
+            "prod" "Production (custom domain, SSL)" \
+            2>&1 >/dev/tty)
+        clear
+    else
+        echo "Dialog not found. Install for better UI? (y/n)"
+        read -p "Install dialog? [y/N]: " install_dialog
+        if [[ $install_dialog =~ ^[Yy]$ ]]; then
+            apt-get update -q && apt-get install -y dialog
+            MODE=$(dialog --clear --backtitle "GridOps Installer" \
+                --title "Installation Mode" \
+                --menu "Choose installation mode:" 15 50 4 \
+                "dev" "Development (localhost, no SSL)" \
+                "prod" "Production (custom domain, SSL)" \
+                2>&1 >/dev/tty)
+            clear
+        else
+            echo "GridOps Installation Mode:"
+            echo "1) Development (localhost, no SSL)"
+            echo "2) Production (custom domain, SSL)"
+            read -p "Choose mode [1-2]: " choice
+            case $choice in
+                1) MODE="dev" ;;
+                2) MODE="prod" ;;
+                *) error_exit "Invalid choice" ;;
+            esac
+        fi
+    fi
+fi
+
+# Set defaults based on mode
+if [ "$MODE" = "dev" ]; then
+    DOMAIN="localhost"
+    EMAIL="dev@localhost"
+fi
+
 if [ -z "$DOMAIN" ] || [ -z "$EMAIL" ]; then
-    error_exit "Usage: $0 --domain yourdomain.com --email your@email.com"
+    read -p "Enter domain: " DOMAIN
+    read -p "Enter email: " EMAIL
 fi
 
 # Install Docker if not present
@@ -118,21 +163,13 @@ volumes:
 EOF
 
 # Create Caddyfile
-log "Creating Caddy configuration..."
-if [ "$DOMAIN" = "localhost" ] || [ "$DOMAIN" = "127.0.0.1" ]; then
-    # Development mode - no SSL
-    cat > "$INSTALL_DIR/Caddyfile" <<EOF
-:80 {
-    reverse_proxy dashboard:8000
-}
-EOF
+log "Creating Caddy configuration for $MODE mode..."
+if [ "$MODE" = "dev" ]; then
+    cp Caddyfile.dev "$INSTALL_DIR/Caddyfile"
+    log "Using development mode (HTTP only)"
 else
-    # Production mode - with SSL
-    cat > "$INSTALL_DIR/Caddyfile" <<EOF
-$DOMAIN {
-    reverse_proxy dashboard:8000
-}
-EOF
+    sed "s/isaio.in/$DOMAIN/g" Caddyfile.prod > "$INSTALL_DIR/Caddyfile"
+    log "Using production mode with SSL for $DOMAIN"
 fi
 
 # Create dashboard Dockerfile

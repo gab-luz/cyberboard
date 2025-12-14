@@ -5,9 +5,13 @@ All notable changes to GridOps will be documented in this file.
 ## [Unreleased]
 
 ### Added
-- Docker-based installation system (`docker-install.sh`)
+- Docker-based installation system (`docker-install.sh`) with interactive mode selection
+- Dialog-based UI for installer with fallback to text prompts
+- Optional dialog package installation for enhanced user experience
 - Uninstaller script (`uninstall.sh`) to remove all traces
 - Docker update script (`update-docker.sh`) for testing changes
+- Caddyfile templates for development and production
+- Interactive installer with development/production mode selection
 - Containerized architecture with Caddy, Dashboard, PostgreSQL, Redis
 - Onboarding system for optional app installation
 - Management command for setup (`setup_onboarding.py`)

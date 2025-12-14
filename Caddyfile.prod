@@ -1,0 +1,3 @@
+isaio.in {
+	reverse_proxy dashboard:8000
+}
