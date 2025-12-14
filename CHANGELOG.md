@@ -7,6 +7,7 @@ All notable changes to GridOps will be documented in this file.
 ### Added
 - Docker-based installation system (`docker-install.sh`)
 - Uninstaller script (`uninstall.sh`) to remove all traces
+- Docker update script (`update-docker.sh`) for testing changes
 - Containerized architecture with Caddy, Dashboard, PostgreSQL, Redis
 - Onboarding system for optional app installation
 - Management command for setup (`setup_onboarding.py`)
