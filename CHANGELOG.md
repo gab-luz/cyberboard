@@ -27,6 +27,8 @@ All notable changes to GridOps will be documented in this file.
 - Missing requirements.txt path in Python environment setup
 - Systemd service failures and debugging visibility
 - Django container boot failure due to missing dj-database-url dependency
+- Caddy configuration formatting issues and SSL certificate handling
+- Development mode support for localhost without SSL
 
 ### Removed
 - Direct system package installation (PostgreSQL, Redis, Python venv)

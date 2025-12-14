@@ -77,8 +77,6 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-    environment:
-      - DOMAIN=$DOMAIN
     restart: unless-stopped
 
   dashboard:
@@ -121,11 +119,21 @@ EOF
 
 # Create Caddyfile
 log "Creating Caddy configuration..."
-cat > "$INSTALL_DIR/Caddyfile" <<EOF
+if [ "$DOMAIN" = "localhost" ] || [ "$DOMAIN" = "127.0.0.1" ]; then
+    # Development mode - no SSL
+    cat > "$INSTALL_DIR/Caddyfile" <<EOF
+:80 {
+    reverse_proxy dashboard:8000
+}
+EOF
+else
+    # Production mode - with SSL
+    cat > "$INSTALL_DIR/Caddyfile" <<EOF
 $DOMAIN {
     reverse_proxy dashboard:8000
 }
 EOF
+fi
 
 # Create dashboard Dockerfile
 log "Creating dashboard Dockerfile..."
