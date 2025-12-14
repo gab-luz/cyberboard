@@ -1,0 +1,14 @@
+[Unit]
+Description=GridOps Worker
+After=network.target redis-server.service
+
+[Service]
+User=gridops
+Group=gridops
+WorkingDirectory=/srv/gridops/dashboard
+EnvironmentFile=/srv/gridops/.env
+ExecStart=/srv/gridops/venv/bin/celery -A core worker -l info
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

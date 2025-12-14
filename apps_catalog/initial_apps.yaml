@@ -1,0 +1,81 @@
+-
+  name: "Uptime Kuma"
+  slug: "uptime-kuma"
+  description: "A self-hosted monitoring tool like 'Uptime Robot'."
+  category: "Monitoring"
+  icon: "📈"
+  docker_compose_template: |
+    version: '3.3'
+    services:
+      uptime-kuma:
+        image: louislam/uptime-kuma:1
+        restart: always
+        ports:
+          - "3001:3001"
+        volumes:
+          - ./uptime-kuma-data:/app/data
+  form_schema: []
+
+-
+  name: "Nginx Proxy Manager"
+  slug: "npm"
+  description: "Docker container for managing Nginx proxy hosts with a simple, powerful interface."
+  category: "Network"
+  icon: "🌐"
+  docker_compose_template: |
+    version: '3'
+    services:
+      app:
+        image: 'jc21/nginx-proxy-manager:latest'
+        restart: unless-stopped
+        ports:
+          - '80:80'
+          - '81:81'
+          - '443:443'
+        volumes:
+          - ./data:/data
+          - ./letsencrypt:/etc/letsencrypt
+  form_schema: []
+
+-
+  name: "Vaultwarden"
+  slug: "vaultwarden"
+  description: "Unofficial Bitwarden compatible server written in Rust."
+  category: "Security"
+  icon: "🔒"
+  docker_compose_template: |
+    version: '3'
+    services:
+      vaultwarden:
+        image: vaultwarden/server:latest
+        restart: always
+        environment:
+          - SIGNUPS_ALLOWED=${SIGNUPS_ALLOWED}
+        volumes:
+          - ./vw-data/:/data/
+  form_schema:
+    - name: "SIGNUPS_ALLOWED"
+      label: "Allow Signups"
+      default: "true"
+      help_text: "Set to false to disable new user registrations."
+
+-
+  name: "FileBrowser"
+  slug: "filebrowser"
+  description: "Web File Manager."
+  category: "Utilities"
+  icon: "📂"
+  docker_compose_template: |
+    version: '3'
+    services:
+      filebrowser:
+        image: filebrowser/filebrowser
+        volumes:
+          - /:/srv
+          - ./filebrowser.db:/database.db
+        environment:
+          - FB_DATABASE=/database.db
+          - FB_ROOT=/srv
+        ports:
+          - "8080:80"
+  form_schema: []

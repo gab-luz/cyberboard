@@ -1,0 +1,47 @@
+<div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+    <div class="absolute -right-6 -top-6 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition"></div>
+    <div class="flex justify-between items-start mb-2">
+        <div>
+            <p class="text-sm font-medium text-slate-400">CPU Usage</p>
+            <h3 class="text-2xl font-bold text-white mt-1">{{ cpu }}%</h3>
+        </div>
+        <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+        </div>
+    </div>
+    <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+        <div class="bg-blue-500 h-1.5 rounded-full transition-all duration-500" style="width: {{ cpu }}%"></div>
+    </div>
+</div>
+
+<div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+    <div class="absolute -right-6 -top-6 w-24 h-24 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition"></div>
+    <div class="flex justify-between items-start mb-2">
+        <div>
+            <p class="text-sm font-medium text-slate-400">RAM Usage</p>
+            <h3 class="text-2xl font-bold text-white mt-1">{{ ram }}%</h3>
+        </div>
+        <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+        </div>
+    </div>
+    <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+        <div class="bg-purple-500 h-1.5 rounded-full transition-all duration-500" style="width: {{ ram }}%"></div>
+    </div>
+</div>
+
+<div class="glass-card p-6 rounded-2xl relative overflow-hidden group">
+    <div class="absolute -right-6 -top-6 w-24 h-24 bg-green-500/10 rounded-full blur-xl group-hover:bg-green-500/20 transition"></div>
+    <div class="flex justify-between items-start mb-2">
+        <div>
+            <p class="text-sm font-medium text-slate-400">Disk Usage</p>
+            <h3 class="text-2xl font-bold text-white mt-1">{{ disk }}%</h3>
+        </div>
+        <div class="p-2 bg-green-500/10 rounded-lg text-green-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+        </div>
+    </div>
+    <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+        <div class="bg-green-500 h-1.5 rounded-full transition-all duration-500" style="width: {{ disk }}%"></div>
+    </div>
+</div>

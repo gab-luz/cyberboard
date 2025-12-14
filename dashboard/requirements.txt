@@ -1,0 +1,19 @@
+Django>=5.0
+django-htmx
+django-tailwind
+django-otp
+qrcode
+psycopg2-binary
+redis
+celery
+requests
+pyyaml
+gunicorn
+uvicorn
+django-compressor
+django-crispy-forms
+crispy-tailwind
+bcrypt
+psutil
+# For geoip
+geoip2
