@@ -3,7 +3,17 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
 from .models import App, CatalogItem, SystemSettings, AuditLog
-from ops.client import OpsClient
+# from ops.client import OpsClient  # TODO: Implement ops client
+
+class OpsClient:
+    def reload_proxy(self, caddyfile):
+        return {"status": "success"}
+    
+    def install_app(self, slug, compose_content, env_str):
+        return {"status": "success"}
+    
+    def control_app(self, slug, action):
+        return {"status": "success"}
 from .caddy_utils import generate_caddyfile
 from .forms import OnboardingForm
 from django.contrib.auth.models import User

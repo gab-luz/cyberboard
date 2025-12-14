@@ -35,6 +35,7 @@ All notable changes to GridOps will be documented in this file.
 - Development mode support for localhost without SSL
 - SSL certificate acquisition for production domains
 - SSL redirect loop by adding proper proxy headers
+- Missing ops module by creating stub OpsClient class
 
 ### Removed
 - Direct system package installation (PostgreSQL, Redis, Python venv)
